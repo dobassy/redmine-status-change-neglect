@@ -21,11 +21,11 @@ module RedmineStatusChangeNeglect
       st_progress = IssueStatus.find(2)
       st_feedback = IssueStatus.find(4)
 
-      
-      self.status = st_progress if self.assigned_to
-      self.status = st_new unless self.assigned_to
-
-      if !self.status.is_closed?
+      unless self.status.is_closed?
+        if self.done_ratio == 0
+          self.status = st_progress if self.assigned_to
+          self.status = st_new unless self.assigned_to
+        end
         if self.done_ratio > 0 and self.done_ratio < 100
           self.status = st_progress
         end
