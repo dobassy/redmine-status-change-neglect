@@ -19,18 +19,12 @@ module RedmineStatusChangeNeglect
       # => by default: st(1): new, st(2) in progress, st(4) feedback
       st_new      = IssueStatus.find(1)
       st_progress = IssueStatus.find(2)
-      st_feedback = IssueStatus.find(4)
+      st_feedback = IssueStatus.find(3)
 
       unless self.status.is_closed?
         if self.done_ratio == 0
           self.status = st_progress if self.assigned_to
           self.status = st_new unless self.assigned_to
-        end
-        if self.done_ratio > 0 and self.done_ratio < 100
-          self.status = st_progress
-        end
-        if self.done_ratio == 100
-          self.status = st_feedback
         end
       end
 
